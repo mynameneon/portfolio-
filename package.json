@@ -9,7 +9,8 @@
     "lint": "next lint",
     "typecheck": "tsc --noEmit",
     "publish": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/publish.ps1",
-    "publish:watch": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/watch-and-publish.ps1"
+    "publish:watch": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/watch-and-publish.ps1",
+    "publish:watch:install": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/install-publish-watcher.ps1"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.0.0",

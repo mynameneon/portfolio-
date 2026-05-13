@@ -85,3 +85,9 @@ npm run publish:watch
 ```
 
 Watcher ждёт, пока изменения в git не меняются 90 секунд, затем запускает lint, typecheck, build, делает commit и push в GitHub. Если Netlify подключён к репозиторию GitHub, новый deploy стартует автоматически после push.
+
+Чтобы watcher сам запускался после входа в Windows:
+
+```bash
+npm run publish:watch:install
+```
