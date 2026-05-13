@@ -60,6 +60,7 @@ export interface TranslationContent {
     about: string;
     skills: string;
     experience: string;
+    projects: string;
     contact: string;
   };
   common: {

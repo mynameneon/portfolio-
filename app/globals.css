@@ -32,6 +32,7 @@ html {
   background: var(--page);
   scrollbar-width: thin;
   scrollbar-color: #2997ff #000000;
+  overflow-x: clip;
 }
 
 body {
@@ -45,6 +46,7 @@ body {
     var(--page);
   font-family: var(--font-inter), system-ui, sans-serif;
   text-rendering: geometricPrecision;
+  overflow-x: clip;
 }
 
 body::before {
@@ -111,7 +113,7 @@ canvas {
 }
 
 .shell {
-  width: min(var(--max), calc(100% - 40px));
+  width: min(var(--max), calc(100vw - 40px));
   margin-inline: auto;
 }
 
@@ -150,7 +152,7 @@ canvas {
 
 @media (max-width: 620px) {
   .shell {
-    width: min(calc(100% - 28px), var(--max));
+    width: min(calc(100vw - 48px), var(--max));
   }
 
   .section-band {

@@ -7,6 +7,7 @@ export const translations = {
       about: "Профиль",
       skills: "Стек",
       experience: "Опыт",
+      projects: "Проекты",
       contact: "Связь"
     },
     common: {
@@ -316,6 +317,7 @@ export const translations = {
       about: "Профіль",
       skills: "Стек",
       experience: "Досвід",
+      projects: "Проєкти",
       contact: "Зв'язок"
     },
     common: {
