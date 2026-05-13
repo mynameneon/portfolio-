@@ -114,6 +114,7 @@ export interface TranslationContent {
     success: string;
     successHint: string;
     error: string;
+    emailDeliveryError: string;
     validationRequired: string;
     validationEmail: string;
     links: readonly ContactLink[];

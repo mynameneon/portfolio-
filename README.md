@@ -69,3 +69,19 @@ npm run lint
 npm run typecheck
 npm run build
 ```
+
+## Публикация
+
+Разовая публикация изменений в GitHub:
+
+```bash
+npm run publish -- -Message "Update portfolio"
+```
+
+Автоматический режим для локальной папки:
+
+```bash
+npm run publish:watch
+```
+
+Watcher ждёт, пока изменения в git не меняются 90 секунд, затем запускает lint, typecheck, build, делает commit и push в GitHub. Если Netlify подключён к репозиторию GitHub, новый deploy стартует автоматически после push.

@@ -70,6 +70,12 @@ export function ContactSection() {
     const result = await submitContact(formData);
 
     if (result.success) {
+      if (!result.emailSent) {
+        setStatus("error");
+        setError(content.contact.emailDeliveryError);
+        return;
+      }
+
       setStatus("success");
       setName("");
       setEmail("");
