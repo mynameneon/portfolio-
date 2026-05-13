@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="50%" cy="0%" r="70%">
+      <stop stop-color="#2997ff" stop-opacity=".32"/>
+      <stop offset=".55" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#000000"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <rect x="80" y="82" width="1040" height="466" rx="42" fill="#ffffff" fill-opacity=".055" stroke="#ffffff" stroke-opacity=".12"/>
+  <text x="118" y="166" fill="#2997ff" font-family="monospace" font-size="24" font-weight="700">DIGITAL CRAFT / PRODUCT THINKING</text>
+  <text x="118" y="288" fill="#f5f5f7" font-family="Inter, Arial, sans-serif" font-size="82" font-weight="700">Никита Кононенко</text>
+  <text x="118" y="366" fill="#a1a1a6" font-family="Inter, Arial, sans-serif" font-size="34">Dark minimal portfolio for technical work</text>
+  <rect x="118" y="430" width="170" height="64" rx="32" fill="#ffffff"/>
+  <text x="203" y="472" text-anchor="middle" fill="#000000" font-family="Inter, Arial, sans-serif" font-size="24" font-weight="700">14+ сфер</text>
+  <rect x="920" y="188" width="156" height="156" rx="42" fill="#ffffff" fill-opacity=".08" stroke="#ffffff" stroke-opacity=".14"/>
+  <text x="998" y="284" text-anchor="middle" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="58" font-weight="700">NK</text>
+</svg>
