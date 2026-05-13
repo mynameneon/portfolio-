@@ -30,6 +30,16 @@ export function AmbientBackground() {
         animate={{ opacity: [0.25, 0.5, 0.32] }}
         transition={{ duration: 12, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
       />
+      <motion.div
+        className="absolute inset-x-[-20%] top-[18%] h-[42vh] bg-[linear-gradient(90deg,transparent,rgba(102,199,255,0.055),rgba(41,151,255,0.038),transparent)] blur-3xl"
+        animate={{
+          x: ["-12%", "9%", "-5%"],
+          y: ["0%", "18%", "4%"],
+          opacity: [0.2, 0.46, 0.28],
+          skewX: [-8, 10, -4]
+        }}
+        transition={{ duration: 26, repeat: Infinity, repeatType: "mirror", ease: "easeInOut" }}
+      />
     </div>
   );
 }

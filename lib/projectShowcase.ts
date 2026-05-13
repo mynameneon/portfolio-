@@ -8,7 +8,6 @@ export interface LocalizedCopy {
 export interface ProjectShowcaseItem {
   id: string;
   title: string;
-  folder: string;
   kind: LocalizedCopy;
   summary: LocalizedCopy;
   highlights: readonly LocalizedCopy[];
@@ -21,7 +20,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "opus-monopoly",
     title: "Business Monopoly",
-    folder: "D:\\Project AI\\opus - monopoly",
     kind: { ru: "Мультиплеерная бизнес-игра", ua: "Мультиплеєрна бізнес-гра" },
     summary: {
       ru: "Полная Monopoly-like платформа: авторизация, лобби, друзья, магазин, достижения, Supabase Realtime и PWA.",
@@ -39,7 +37,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "monopoly-online",
     title: "Monopoly Online",
-    folder: "D:\\Project AI\\monopoly 50 на 50",
     kind: { ru: "Браузерная онлайн-игра", ua: "Браузерна онлайн-гра" },
     summary: {
       ru: "Мультиплеерная настольная игра с режимами, JWT-авторизацией, Socket.io и отдельным Node-сервером.",
@@ -57,7 +54,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "qwenaudio",
     title: "QwenAudio Studio",
-    folder: "D:\\Project AI\\qwenaudio",
     kind: { ru: "Онлайн-студия дубляжа", ua: "Онлайн-студія дубляжу" },
     summary: {
       ru: "Совместная запись озвучки: комнаты до 8 человек, таймлайн, эффекты, WebRTC-чат и экспорт через FFmpeg.",
@@ -75,7 +71,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "dublab",
     title: "DubLab",
-    folder: "D:\\Project AI\\dublab",
     kind: { ru: "Real-time dubbing studio", ua: "Real-time dubbing studio" },
     summary: {
       ru: "Профессиональный интерфейс для совместной озвучки видео: роли, эффекты, видео-плеер, soundboard и экспорт.",
@@ -93,7 +88,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "vortex",
     title: "Vortex Desktop",
-    folder: "D:\\Project AI\\codextest",
     kind: { ru: "Discord-like desktop shell", ua: "Discord-like desktop shell" },
     summary: {
       ru: "Electron-коммуникационная оболочка: серверы, каналы, чат, home feed, профили и backend scaffold.",
@@ -111,7 +105,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "nexus",
     title: "NEXUS Business OS",
-    folder: "D:\\Project AI\\nexus - 20 yf 80",
     kind: { ru: "Business OS / desktop platform", ua: "Business OS / desktop platform" },
     summary: {
       ru: "Большая Vite/Electron-платформа с auth, SQLite, мобильной сборкой через Capacitor и визуальным OS-подходом.",
@@ -129,7 +122,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "songless",
     title: "Songless Analog",
-    folder: "D:\\Project AI\\songless_analog",
     kind: { ru: "Музыкальная угадайка", ua: "Музична вгадайка" },
     summary: {
       ru: "Мультиплеерная игра по угадыванию треков с progressive clips, режимами, pack editor и live lobby.",
@@ -147,7 +139,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "nexplorer",
     title: "NexPlorer",
-    folder: "D:\\Project AI\\PROVODNIK 80 на 20",
     kind: { ru: "Windows file manager", ua: "Windows file manager" },
     summary: {
       ru: "Замена проводника на PyQt6: индексация, теги, preview panel, автоочистка, шифрование и темы.",
@@ -165,7 +156,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "logist",
     title: "Logist Mini App",
-    folder: "D:\\Project AI\\TGBOT_LOGISTIKA",
     kind: { ru: "Telegram bot + mini app", ua: "Telegram bot + mini app" },
     summary: {
       ru: "Навигатор для курьеров в Киеве: бот, mini app, точки доставки, OSRM-маршруты и heading-up карта.",
@@ -183,7 +173,6 @@ export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
     id: "sakura",
     title: "Sakura Stream",
-    folder: "D:\\Project AI\\anime",
     kind: { ru: "Private streaming build", ua: "Private streaming build" },
     summary: {
       ru: "Модульный iOS-проект и desktop-сборка: catalog, player shell, cache, CoreData и installer workflow.",

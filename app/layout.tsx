@@ -5,6 +5,7 @@ import { AmbientBackground } from "@/components/layout/AmbientBackground";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { Cursor } from "@/components/ui/Cursor";
+import { InteractionHints } from "@/components/ui/InteractionHints";
 import { LanguageProvider } from "@/hooks/useLanguage";
 
 const inter = Inter({
@@ -64,6 +65,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           <Cursor />
           <Navbar />
           {children}
+          <InteractionHints />
           <Footer />
         </LanguageProvider>
       </body>

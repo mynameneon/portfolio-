@@ -497,6 +497,7 @@ export function ServicesSection() {
                 style={{ transformStyle: "preserve-3d" }}
                 aria-label={`${content.open}: ${service.title}`}
                 data-cursor="interactive"
+                data-hint={content.open}
               >
                 <div className="pointer-events-none absolute -right-20 -top-20 h-56 w-56 rounded-[42px] blur-3xl opacity-0 group-hover:opacity-100" style={{ backgroundColor: `${accent}22` }} />
                 <div className="relative p-5">

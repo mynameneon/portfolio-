@@ -61,6 +61,46 @@ body::before {
   mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
 
+html[data-hints="on"] [data-hint] {
+  position: relative;
+  outline: 1px solid rgb(41 151 255 / 0.36);
+  outline-offset: 10px;
+}
+
+html[data-hints="on"] [data-hint]::after {
+  content: attr(data-hint);
+  position: absolute;
+  inset-inline-end: 18px;
+  inset-block-start: 18px;
+  z-index: 30;
+  max-width: min(280px, calc(100vw - 48px));
+  border: 1px solid rgb(41 151 255 / 0.28);
+  border-radius: 999px;
+  background: rgb(0 0 0 / 0.74);
+  box-shadow: 0 18px 52px rgb(0 0 0 / 0.36);
+  color: var(--text);
+  padding: 8px 12px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 11px;
+  line-height: 1.35;
+  pointer-events: none;
+  backdrop-filter: blur(18px);
+}
+
+html[data-hints="on"] [data-hint]::before {
+  content: "";
+  position: absolute;
+  inset-inline-end: 20px;
+  inset-block-start: 20px;
+  z-index: 29;
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  background: #2997ff;
+  box-shadow: 0 0 24px rgb(41 151 255 / 0.7);
+  pointer-events: none;
+}
+
 ::selection {
   background: rgb(41 151 255 / 0.32);
 }
@@ -157,5 +197,11 @@ canvas {
 
   .section-band {
     padding-block: 76px;
+  }
+
+  html[data-hints="on"] [data-hint]::after {
+    inset-inline: 12px auto;
+    inset-block-start: 12px;
+    max-width: calc(100vw - 44px);
   }
 }

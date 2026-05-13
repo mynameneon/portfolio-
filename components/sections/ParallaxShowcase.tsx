@@ -1,7 +1,8 @@
 "use client";
 
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { Box, Layers3, MousePointer2, Sparkles } from "lucide-react";
+import { useRef } from "react";
 import { useLanguage } from "@/hooks/useLanguage";
 
 const copy = {
@@ -28,6 +29,8 @@ const copy = {
 export function ParallaxShowcase() {
   const { lang } = useLanguage();
   const content = copy[lang];
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
   const x = useMotionValue(0);
   const y = useMotionValue(0);
   const smoothX = useSpring(x, { stiffness: 110, damping: 24, mass: 0.4 });
@@ -36,11 +39,15 @@ export function ParallaxShowcase() {
   const rotateX = useTransform(smoothY, [-0.5, 0.5], [9, -9]);
   const layerX = useTransform(smoothX, [-0.5, 0.5], [-22, 22]);
   const layerY = useTransform(smoothY, [-0.5, 0.5], [-18, 18]);
+  const scrollSceneY = useTransform(scrollYProgress, [0, 1], [82, -88]);
+  const scrollSceneScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.92, 1.03, 0.96]);
+  const scrollTextY = useTransform(scrollYProgress, [0, 1], [38, -36]);
 
   return (
-    <section className="section-band overflow-hidden">
+    <section ref={sectionRef} className="section-band min-h-[112svh] overflow-hidden" data-hint={content.hint}>
       <div className="shell grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr]">
         <motion.div
+          style={{ y: scrollTextY }}
           initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
@@ -60,6 +67,7 @@ export function ParallaxShowcase() {
 
         <motion.div
           className="relative min-h-[560px] rounded-[40px] border border-line bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] p-5 shadow-[0_44px_140px_rgba(0,0,0,0.54)]"
+          style={{ y: scrollSceneY, scale: scrollSceneScale }}
           onPointerMove={(event) => {
             const rect = event.currentTarget.getBoundingClientRect();
             x.set((event.clientX - rect.left) / rect.width - 0.5);
@@ -99,7 +107,7 @@ export function ParallaxShowcase() {
                   </span>
                   <span className="rounded-full bg-[#30d158]/15 px-3 py-1 font-mono text-[11px] text-[#30d158]">live</span>
                 </div>
-                <div className="mt-5 grid grid-cols-[0.7fr_1.3fr] gap-4">
+                <div className="mt-5 grid gap-4 sm:grid-cols-[0.7fr_1.3fr]">
                   <div className="grid gap-3">
                     {content.layers.map((layer, index) => (
                       <motion.span
@@ -131,7 +139,7 @@ export function ParallaxShowcase() {
               </motion.div>
 
               <motion.div
-                className="absolute left-0 top-28 z-20 w-[210px] rounded-[28px] border border-white/12 bg-white/[0.09] p-4 shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-2xl"
+                className="absolute left-0 top-28 z-20 hidden w-[210px] rounded-[28px] border border-white/12 bg-white/[0.09] p-4 shadow-[0_28px_90px_rgba(0,0,0,0.42)] backdrop-blur-2xl md:block"
                 style={{ transform: "translateZ(130px) rotateY(-5deg)" }}
                 animate={{ y: [-8, 6, -8] }}
                 transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut" }}
@@ -142,7 +150,7 @@ export function ParallaxShowcase() {
               </motion.div>
 
               <motion.div
-                className="absolute bottom-0 right-0 z-20 w-[250px] rounded-[30px] border border-white/12 bg-black/72 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.46)]"
+                className="absolute bottom-0 right-0 z-20 hidden w-[250px] rounded-[30px] border border-white/12 bg-black/72 p-4 shadow-[0_30px_100px_rgba(0,0,0,0.46)] md:block"
                 style={{ transform: "translateZ(160px) rotateY(7deg)" }}
                 animate={{ y: [6, -10, 6] }}
                 transition={{ duration: 4.6, repeat: Infinity, ease: "easeInOut" }}
