@@ -41,7 +41,7 @@ export function ParallaxShowcase() {
     <section className="section-band overflow-hidden">
       <div className="shell grid items-center gap-12 lg:grid-cols-[0.86fr_1.14fr]">
         <motion.div
-          initial={{ opacity: 0, y: 24 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
@@ -69,7 +69,7 @@ export function ParallaxShowcase() {
             x.set(0);
             y.set(0);
           }}
-          initial={{ opacity: 0, y: 30, scale: 0.98 }}
+          initial={false}
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-80px" }}
           transition={{ duration: 0.72, ease: [0.22, 1, 0.36, 1] }}

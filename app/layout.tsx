@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono, Space_Grotesk } from "next/font/google";
 import "./globals.css";
+import { AmbientBackground } from "@/components/layout/AmbientBackground";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
 import { Cursor } from "@/components/ui/Cursor";
@@ -59,6 +60,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="ru" suppressHydrationWarning>
       <body className={`${inter.variable} ${spaceGrotesk.variable} ${jetBrainsMono.variable}`}>
         <LanguageProvider>
+          <AmbientBackground />
           <Cursor />
           <Navbar />
           {children}
