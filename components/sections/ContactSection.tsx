@@ -9,6 +9,24 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { useLanguage } from "@/hooks/useLanguage";
 import type { ContactLink, ContactStatus } from "@/types";
+import { PageDepthScene } from "./PageDepthScene";
+
+const depthCopy = {
+  ru: {
+    label: "lead flow",
+    title: "Заявка проходит понятный путь.",
+    body:
+      "Имя, почта и короткое сообщение сохраняются в Supabase, дублируются email-уведомлением и превращаются в задачу, на которую удобно ответить без потери контекста.",
+    items: ["Форма", "Supabase", "Email", "Ответ 24ч"]
+  },
+  ua: {
+    label: "lead flow",
+    title: "Заявка проходить зрозумілий шлях.",
+    body:
+      "Ім'я, пошта й коротке повідомлення зберігаються в Supabase, дублюються email-сповіщенням і перетворюються на задачу, на яку зручно відповісти без втрати контексту.",
+    items: ["Форма", "Supabase", "Email", "Відповідь 24г"]
+  }
+} as const;
 
 function ContactIcon({ id }: { id: string }) {
   if (id === "phone") return <Phone size={17} />;
@@ -43,6 +61,7 @@ function ContactItem({ item }: { item: ContactLink }) {
 
 export function ContactSection() {
   const { lang, content } = useLanguage();
+  const depth = depthCopy[lang];
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -92,6 +111,14 @@ export function ContactSection() {
       <div className="shell">
         <motion.div key={lang} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.28 }}>
           <SectionHeader eyebrow={content.contact.eyebrow} title={content.contact.title} body={content.contact.body} />
+          <PageDepthScene
+            label={depth.label}
+            title={depth.title}
+            body={depth.body}
+            items={depth.items}
+            accent="#2997ff"
+            hint="contact flow / form submits"
+          />
           <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
             <GlassCard className="p-6">
               <div className="mb-5 flex items-start justify-between gap-4">

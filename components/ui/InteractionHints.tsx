@@ -36,7 +36,7 @@ export function InteractionHints() {
   }, [enabled]);
 
   return (
-    <div className="fixed bottom-5 right-5 z-[90] flex items-end gap-3">
+    <div className="fixed bottom-4 right-4 z-[90] flex items-end gap-3 sm:bottom-5 sm:right-5">
       <AnimatePresence>
         {enabled ? (
           <motion.div
@@ -59,13 +59,13 @@ export function InteractionHints() {
         aria-pressed={enabled}
         aria-label={enabled ? content.disable : content.enable}
         onClick={() => setEnabled((value) => !value)}
-        className="group relative grid h-16 w-16 place-items-center rounded-full border border-white/15 bg-white text-black shadow-[0_20px_70px_rgba(41,151,255,0.28)]"
+        className="group relative grid h-14 w-14 place-items-center rounded-full border border-white/15 bg-white text-black shadow-[0_20px_70px_rgba(41,151,255,0.28)] sm:h-16 sm:w-16"
         whileHover={{ y: -4, scale: 1.03 }}
         whileTap={{ scale: 0.96 }}
         data-cursor="interactive"
       >
         <span className="absolute inset-0 rounded-full bg-[#2997ff] opacity-0 blur-xl transition-opacity group-hover:opacity-30" />
-        <span className="relative grid h-11 w-11 place-items-center rounded-full bg-black text-xs font-bold text-white">
+        <span className="relative grid h-9 w-9 place-items-center rounded-full bg-black text-xs font-bold text-white sm:h-11 sm:w-11">
           {enabled ? <X size={18} /> : <HelpCircle size={18} />}
         </span>
       </motion.button>

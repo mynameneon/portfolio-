@@ -54,7 +54,7 @@ export function ParallaxShowcase() {
           transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
         >
           <p className="eyebrow">{content.eyebrow}</p>
-          <h2 className="mt-3 text-balance font-display text-[clamp(2.8rem,6vw,5.8rem)] font-semibold leading-[0.9] text-text-primary">{content.title}</h2>
+          <h2 className="mt-3 text-balance font-display text-[clamp(2.35rem,10vw,5.8rem)] font-semibold leading-[0.9] text-text-primary">{content.title}</h2>
           <p className="mt-7 max-w-[58ch] text-[17px] leading-8 text-[var(--text-soft)]">{content.body}</p>
           <div className="mt-8 flex flex-wrap gap-2">
             {content.metrics.map((metric) => (
@@ -66,7 +66,7 @@ export function ParallaxShowcase() {
         </motion.div>
 
         <motion.div
-          className="relative min-h-[560px] rounded-[40px] border border-line bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] p-5 shadow-[0_44px_140px_rgba(0,0,0,0.54)]"
+          className="relative min-h-[470px] rounded-[34px] border border-line bg-[radial-gradient(circle_at_50%_0%,rgba(41,151,255,0.18),transparent_34%),linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.025))] p-4 shadow-[0_44px_140px_rgba(0,0,0,0.54)] sm:min-h-[560px] sm:rounded-[40px] sm:p-5"
           style={{ y: scrollSceneY, scale: scrollSceneScale }}
           onPointerMove={(event) => {
             const rect = event.currentTarget.getBoundingClientRect();
@@ -91,7 +91,7 @@ export function ParallaxShowcase() {
             <span className="rounded-full border border-line bg-black/35 px-3 py-2 font-mono">depth / 03</span>
           </div>
 
-          <div className="relative mt-8 grid min-h-[455px] place-items-center [perspective:1200px]">
+          <div className="relative mt-7 grid min-h-[385px] place-items-center [perspective:1200px] sm:mt-8 sm:min-h-[455px]">
             <motion.div
               className="relative h-[370px] w-full max-w-[620px]"
               style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}

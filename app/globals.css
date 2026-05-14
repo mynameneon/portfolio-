@@ -61,6 +61,31 @@ body::before {
   mask-image: linear-gradient(to bottom, black, transparent 78%);
 }
 
+body::after {
+  content: "";
+  position: fixed;
+  inset: -18vmax;
+  z-index: -2;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 22% 26%, rgb(41 151 255 / 0.12), transparent 34vmax),
+    radial-gradient(circle at 78% 58%, rgb(102 199 255 / 0.08), transparent 30vmax);
+  filter: blur(12px);
+  opacity: 0.72;
+  transform: translate3d(0, 0, 0) scale(1);
+  animation: ambient-blue-drift 20s ease-in-out infinite alternate;
+}
+
+@keyframes ambient-blue-drift {
+  0% {
+    transform: translate3d(-1.5vmax, -1vmax, 0) scale(1);
+  }
+
+  100% {
+    transform: translate3d(1.8vmax, 1.2vmax, 0) scale(1.05);
+  }
+}
+
 html[data-hints="on"] [data-hint] {
   position: relative;
   outline: 1px solid rgb(41 151 255 / 0.36);
@@ -203,5 +228,11 @@ canvas {
     inset-inline: 12px auto;
     inset-block-start: 12px;
     max-width: calc(100vw - 44px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body::after {
+    animation: none;
   }
 }

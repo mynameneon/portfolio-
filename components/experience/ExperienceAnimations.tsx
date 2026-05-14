@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 import type { ExperienceAnimationName } from "@/types";
 
 interface ExperienceAnimationProps {
@@ -11,7 +12,21 @@ interface ExperienceAnimationProps {
 
 export function ExperienceAnimation({ name, accentColor, large = false }: ExperienceAnimationProps) {
   const className = large ? "h-[240px] w-full" : "h-[176px] w-full";
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { margin: "240px 0px", once: false });
 
+  return (
+    <div ref={ref} className={className}>
+      {inView ? (
+        renderExperienceAnimation(name, accentColor, large, "h-full w-full")
+      ) : (
+        <AnimationPlaceholder accentColor={accentColor} />
+      )}
+    </div>
+  );
+}
+
+function renderExperienceAnimation(name: ExperienceAnimationName, accentColor: string, large: boolean, className: string) {
   switch (name) {
     case "cart":
       return <CartAnimation accentColor={accentColor} className={className} />;
@@ -44,6 +59,15 @@ export function ExperienceAnimation({ name, accentColor, large = false }: Experi
     default:
       return null;
   }
+}
+
+function AnimationPlaceholder({ accentColor }: { accentColor: string }) {
+  return (
+    <div className="relative h-full w-full overflow-hidden rounded-[22px] border border-white/10 bg-white/[0.035]">
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.045)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[length:36px_36px] opacity-50" />
+      <div className="absolute left-1/2 top-1/2 h-14 w-32 -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-white/10 bg-black/30" style={{ boxShadow: `0 22px 70px ${accentColor}22` }} />
+    </div>
+  );
 }
 
 function SvgFrame({ children, className }: { children: React.ReactNode; className: string }) {

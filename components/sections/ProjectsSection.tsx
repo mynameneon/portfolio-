@@ -8,6 +8,7 @@ import { ProjectPreview } from "@/components/projects/ProjectPreview";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { useLanguage } from "@/hooks/useLanguage";
 import { projectShowcaseItems, type ProjectShowcaseItem } from "@/lib/projectShowcase";
+import { PageDepthScene } from "./PageDepthScene";
 
 const copy = {
   ru: {
@@ -19,7 +20,11 @@ const copy = {
     highlights: "Что внутри",
     demo: "Открыть демо",
     cta: "Обсудить похожий проект",
-    note: "Каждое демо работает прямо на этой странице как интерактивный прототип: клиент видит поведение, ключевые экраны и логику без доступа к локальным репозиториям."
+    note: "Каждое демо работает прямо на этой странице как интерактивный прототип: клиент видит поведение, ключевые экраны и логику без доступа к локальным репозиториям.",
+    depthLabel: "demo lab",
+    depthTitle: "Проекты открываются как тестовые сцены.",
+    depthBody:
+      "Витрина ведет клиента через интерактивные состояния: preview, стек, сценарии, окно демо и быстрый переход к обсуждению похожей задачи."
   },
   ua: {
     eyebrow: "Projects",
@@ -30,7 +35,11 @@ const copy = {
     highlights: "Що всередині",
     demo: "Відкрити демо",
     cta: "Обговорити схожий проєкт",
-    note: "Кожне демо працює прямо на цій сторінці як інтерактивний прототип: клієнт бачить поведінку, ключові екрани й логіку без доступу до локальних репозиторіїв."
+    note: "Кожне демо працює прямо на цій сторінці як інтерактивний прототип: клієнт бачить поведінку, ключові екрани й логіку без доступу до локальних репозиторіїв.",
+    depthLabel: "demo lab",
+    depthTitle: "Проєкти відкриваються як тестові сцени.",
+    depthBody:
+      "Вітрина веде клієнта через інтерактивні стани: preview, стек, сценарії, вікно демо й швидкий перехід до обговорення схожої задачі."
   }
 } as const;
 
@@ -52,6 +61,15 @@ export function ProjectsSection() {
           <h1 className="max-w-5xl text-balance font-display text-[clamp(2.75rem,6vw,6rem)] font-semibold leading-[0.94] text-text-primary sm:leading-[0.92]">{content.title}</h1>
           <p className="max-w-[78ch] text-pretty text-[17px] leading-8 text-[var(--text-soft)]">{content.body}</p>
         </motion.div>
+
+        <PageDepthScene
+          label={content.depthLabel}
+          title={content.depthTitle}
+          body={content.depthBody}
+          items={projectShowcaseItems.slice(0, 6).map((project) => project.title)}
+          accent="#ffd60a"
+          hint="projects demo flow"
+        />
 
         <div className="grid gap-5">
           {projectShowcaseItems.map((project, index) => (

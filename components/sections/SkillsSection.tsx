@@ -8,6 +8,22 @@ import { GlassCard } from "@/components/ui/GlassCard";
 import { useLanguage } from "@/hooks/useLanguage";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import type { SkillCategory } from "@/types";
+import { PageDepthScene } from "./PageDepthScene";
+
+const depthCopy = {
+  ru: {
+    label: "skill map",
+    title: "Стек двигается слоями, как рабочая карта.",
+    body:
+      "Навыки разделены не ради списка, а ради сценариев: интерфейс, серверная логика, аналитика, CRM, контент и электроника быстро соединяются под задачу клиента."
+  },
+  ua: {
+    label: "skill map",
+    title: "Стек рухається шарами, як робоча карта.",
+    body:
+      "Навички розділені не заради списку, а заради сценаріїв: інтерфейс, серверна логіка, аналітика, CRM, контент і електроніка швидко з'єднуються під задачу клієнта."
+  }
+} as const;
 
 function SkillIcon({ id, color }: { id: string; color: string }) {
   const props = { size: 21, color, strokeWidth: 1.9 };
@@ -57,12 +73,21 @@ function SkillCard({ category, index }: { category: SkillCategory; index: number
 export function SkillsSection() {
   const { lang, content } = useLanguage();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12 });
+  const depth = depthCopy[lang];
 
   return (
     <section id="skills" className="section-band">
       <div className="shell">
         <motion.div key={lang} initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.28 }}>
           <SectionHeader eyebrow={content.skills.eyebrow} title={content.skills.title} body={content.skills.body} />
+          <PageDepthScene
+            label={depth.label}
+            title={depth.title}
+            body={depth.body}
+            items={content.skills.categories.map((category) => category.title)}
+            accent="#30d158"
+            hint="skill map / parallax"
+          />
           <motion.div
             ref={ref}
             className="grid gap-4 md:grid-cols-2 lg:grid-cols-3"

@@ -19,7 +19,7 @@ export function HeroSection() {
       <div className="shell relative z-10 grid min-h-[calc(100svh-66px)] items-center gap-12 py-16 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.62fr)] lg:gap-16 lg:py-24">
         <motion.div key={lang} className="min-w-0 max-lg:text-center" variants={staggerContainer} initial={false} animate="visible">
           <motion.div
-            className="flex w-full max-w-full items-center justify-center gap-2 rounded-full border border-line bg-white/[0.055] px-3 py-2 text-left text-xs font-medium text-[var(--text-soft)] shadow-[0_18px_46px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:inline-flex sm:w-auto sm:text-sm"
+            className="mx-auto flex w-full max-w-[17rem] items-center justify-center gap-2 rounded-full border border-line bg-white/[0.055] px-3 py-2 text-left text-xs font-medium text-[var(--text-soft)] shadow-[0_18px_46px_rgba(0,0,0,0.28)] backdrop-blur-xl sm:inline-flex sm:w-auto sm:max-w-full sm:text-sm"
             variants={fadeUp}
           >
             <Sparkles size={15} className="text-[#2997ff]" />
@@ -29,7 +29,7 @@ export function HeroSection() {
             {content.hero.greeting}
           </motion.p>
           <motion.h1
-            className="mt-3 max-w-[900px] text-balance font-display text-[clamp(2.65rem,9.2vw,7.7rem)] font-semibold leading-[0.92] text-text-primary max-lg:mx-auto sm:leading-[0.88]"
+            className="mt-3 max-w-[900px] whitespace-normal text-balance font-display text-[clamp(2.65rem,9.2vw,7.7rem)] font-semibold leading-[0.92] text-text-primary max-lg:mx-auto max-sm:max-w-[7.8em] max-sm:text-[clamp(2.15rem,10vw,2.45rem)] sm:leading-[0.88]"
             variants={fadeUp}
           >
             {content.hero.title}
@@ -37,10 +37,10 @@ export function HeroSection() {
           <motion.div className="mt-6 min-h-9 text-xl font-semibold text-[#2997ff] sm:text-2xl" variants={fadeUp}>
             <AnimatedText texts={content.hero.typewriter} />
           </motion.div>
-          <motion.p className="mt-7 max-w-full text-pretty text-[clamp(1.02rem,2vw,1.45rem)] leading-8 text-[var(--text-soft)] max-lg:mx-auto sm:max-w-[720px] sm:leading-9" variants={fadeUp}>
+          <motion.p className="mt-7 max-w-full text-pretty text-[clamp(1.02rem,2vw,1.45rem)] leading-8 text-[var(--text-soft)] max-lg:mx-auto max-sm:max-w-[17rem] max-sm:text-[1.05rem] max-sm:leading-7 sm:max-w-[720px] sm:leading-9" variants={fadeUp}>
             {content.hero.description}
           </motion.p>
-          <motion.div className="mt-9 flex flex-wrap gap-3 max-lg:justify-center" variants={fadeUp}>
+          <motion.div className="mt-9 flex flex-wrap gap-3 max-lg:justify-center max-sm:mx-auto max-sm:w-full max-sm:max-w-[17rem]" variants={fadeUp}>
             <NeonButton href="/contact" className="max-sm:w-full">
               <Send size={16} />
               {content.hero.ctaContact}
@@ -50,7 +50,7 @@ export function HeroSection() {
               <ArrowRight size={16} />
             </NeonButton>
           </motion.div>
-          <motion.div className="mt-12 grid max-w-[650px] grid-cols-1 gap-3 sm:grid-cols-3 max-lg:mx-auto" variants={fadeUp}>
+          <motion.div className="mt-12 grid max-w-[650px] grid-cols-1 gap-3 max-lg:mx-auto max-sm:max-w-[17rem] sm:grid-cols-3" variants={fadeUp}>
             {content.hero.stats.map((stat) => (
               <div key={stat.label} className="rounded-[22px] border border-line bg-white/[0.055] p-4 shadow-[0_20px_52px_rgba(0,0,0,0.28)] backdrop-blur-xl">
                 <strong className="block text-3xl font-semibold leading-none text-text-primary">{stat.value}</strong>

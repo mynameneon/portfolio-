@@ -13,9 +13,8 @@ export function SectionHeader({ eyebrow, title, body }: SectionHeaderProps) {
   return (
     <motion.div
       className="mx-auto mb-14 grid max-w-[980px] justify-items-center gap-5 text-center"
-      initial="hidden"
-      whileInView="visible"
-      viewport={{ once: true, margin: "-80px" }}
+      initial={false}
+      animate="visible"
       variants={fadeUp}
     >
       <div>

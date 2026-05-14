@@ -9,9 +9,6 @@ interface Particle {
   vy: number;
 }
 
-const particleCount = 100;
-const linkDistance = 120;
-
 export function ParticleCanvas() {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
@@ -29,28 +26,57 @@ export function ParticleCanvas() {
     let width = 0;
     let height = 0;
     let frame = 0;
+    let lastFrame = 0;
+    let isVisible = true;
     let particles: Particle[] = [];
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+    const getParticleCount = () => {
+      if (reducedMotion) {
+        return 22;
+      }
+
+      const isTouch = window.matchMedia("(pointer: coarse)").matches;
+      if (isTouch || width < 760) {
+        return 34;
+      }
+
+      return Math.min(78, Math.max(44, Math.round((width * height) / 18500)));
+    };
+
+    const getLinkDistance = () => (width < 760 ? 82 : 112);
+
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
-      const ratio = Math.min(window.devicePixelRatio || 1, 2);
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
       width = rect.width;
       height = rect.height;
       canvas.width = Math.floor(width * ratio);
       canvas.height = Math.floor(height * ratio);
       context.setTransform(ratio, 0, 0, ratio, 0, 0);
 
-      particles = Array.from({ length: particleCount }, () => ({
+      particles = Array.from({ length: getParticleCount() }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.34,
-        vy: (Math.random() - 0.5) * 0.34
+        vx: (Math.random() - 0.5) * 0.28,
+        vy: (Math.random() - 0.5) * 0.28
       }));
     };
 
-    const draw = () => {
+    const draw = (time = 0) => {
+      frame = window.requestAnimationFrame(draw);
+
+      if (!isVisible || document.hidden) {
+        return;
+      }
+
+      if (time - lastFrame < 33) {
+        return;
+      }
+
+      lastFrame = time;
       context.clearRect(0, 0, width, height);
+      const linkDistance = getLinkDistance();
 
       particles.forEach((particle) => {
         if (!reducedMotion) {
@@ -89,16 +115,24 @@ export function ParticleCanvas() {
           }
         }
       }
-
-      frame = window.requestAnimationFrame(draw);
     };
 
     resize();
     draw();
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { rootMargin: "160px" }
+    );
+    observer.observe(canvas);
+
     window.addEventListener("resize", resize);
 
     return () => {
       window.cancelAnimationFrame(frame);
+      observer.disconnect();
       window.removeEventListener("resize", resize);
     };
   }, []);

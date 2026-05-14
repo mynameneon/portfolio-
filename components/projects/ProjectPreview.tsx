@@ -1,7 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
-import type { ReactNode } from "react";
+import { motion, useInView } from "framer-motion";
+import { useRef, type ReactNode } from "react";
 import type { ProjectPreviewVariant } from "@/lib/projectShowcase";
 
 interface ProjectPreviewProps {
@@ -219,7 +219,23 @@ function TerminalPreview({ accent }: { accent: string }) {
   );
 }
 
-export function ProjectPreview({ variant, accent }: ProjectPreviewProps) {
+function PreviewPlaceholder({ accent }: { accent: string }) {
+  return (
+    <WindowFrame accent={accent}>
+      <div className="grid h-[150px] grid-cols-5 gap-2">
+        {Array.from({ length: 15 }).map((_, index) => (
+          <span
+            key={index}
+            className="rounded-xl border border-white/10 bg-white/[0.045]"
+            style={{ background: index === 7 ? `${accent}22` : undefined }}
+          />
+        ))}
+      </div>
+    </WindowFrame>
+  );
+}
+
+function renderProjectPreview(variant: ProjectPreviewVariant, accent: string) {
   if (variant === "board") return <BoardPreview accent={accent} />;
   if (variant === "audio") return <AudioPreview accent={accent} />;
   if (variant === "chat") return <ChatPreview accent={accent} />;
@@ -229,4 +245,11 @@ export function ProjectPreview({ variant, accent }: ProjectPreviewProps) {
   if (variant === "stream") return <StreamPreview accent={accent} />;
   if (variant === "terminal" || variant === "key") return <TerminalPreview accent={accent} />;
   return <BoardPreview accent={accent} />;
+}
+
+export function ProjectPreview({ variant, accent }: ProjectPreviewProps) {
+  const ref = useRef<HTMLDivElement | null>(null);
+  const inView = useInView(ref, { margin: "240px 0px", once: false });
+
+  return <div ref={ref}>{inView ? renderProjectPreview(variant, accent) : <PreviewPlaceholder accent={accent} />}</div>;
 }

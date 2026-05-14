@@ -121,7 +121,7 @@ function FlowPanel({
 
   return (
     <motion.article
-      className="absolute left-1/2 top-1/2 w-[min(82vw,560px)] overflow-hidden rounded-[34px] border border-white/15 bg-[#06080b]/88 p-5 text-left shadow-[0_42px_130px_rgba(0,0,0,0.62)] backdrop-blur-2xl sm:p-6"
+      className="absolute left-1/2 top-1/2 w-[min(86vw,560px)] overflow-hidden rounded-[30px] border border-white/15 bg-[#06080b]/88 p-4 text-left shadow-[0_42px_130px_rgba(0,0,0,0.62)] backdrop-blur-2xl sm:rounded-[34px] sm:p-6"
       style={{
         x,
         y,
@@ -154,7 +154,7 @@ function FlowPanel({
         />
       </div>
       <div className="relative">
-        <h3 className="mt-8 text-balance font-display text-[clamp(2rem,4vw,4.4rem)] font-semibold leading-[0.95] text-text-primary">{frame.title}</h3>
+        <h3 className="mt-6 text-balance font-display text-[clamp(1.65rem,7.6vw,4.4rem)] font-semibold leading-[0.95] text-text-primary sm:mt-8">{frame.title}</h3>
         <p className="mt-5 max-w-[48ch] text-[15px] leading-7 text-[var(--text-soft)]">{frame.body}</p>
         <div className="mt-8 flex flex-wrap gap-2">
           {frame.chips.map((chip) => (
@@ -200,8 +200,8 @@ export function DepthDeckSection() {
   const stageY = useTransform(smoothProgress, [0, 1], [24, -24]);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[250svh] border-t border-line" data-hint={content.hint}>
-      <div className="sticky top-[66px] grid min-h-[calc(100svh-66px)] items-center overflow-hidden py-10">
+    <section ref={sectionRef} className="relative min-h-[230svh] border-t border-line sm:min-h-[250svh]" data-hint={content.hint}>
+      <div className="sticky top-[58px] grid min-h-[calc(100svh-58px)] items-center overflow-hidden py-8 sm:top-[66px] sm:min-h-[calc(100svh-66px)] sm:py-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_34%,rgba(41,151,255,0.16),transparent_28rem),radial-gradient(circle_at_34%_74%,rgba(102,199,255,0.06),transparent_24rem)]" />
         <motion.div
           className="pointer-events-none absolute left-1/2 top-1/2 h-[52rem] w-[52rem] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#2997ff]/14"
@@ -211,7 +211,7 @@ export function DepthDeckSection() {
         <div className="shell relative grid items-center gap-8 lg:grid-cols-[0.82fr_1.18fr]">
           <div className="max-w-[690px] max-lg:text-center">
             <p className="eyebrow">{content.eyebrow}</p>
-            <h2 className="mt-3 text-balance font-display text-[clamp(2.8rem,6.4vw,6.5rem)] font-semibold leading-[0.9] text-text-primary">{content.title}</h2>
+            <h2 className="mt-3 text-balance font-display text-[clamp(2.35rem,11vw,6.5rem)] font-semibold leading-[0.9] text-text-primary">{content.title}</h2>
             <p className="mt-7 text-pretty text-[17px] leading-8 text-[var(--text-soft)]">{content.body}</p>
             <div className="mt-8 flex flex-wrap gap-3 max-lg:justify-center">
               <span className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.055] px-4 py-2 text-sm text-[var(--text-soft)] shadow-[0_18px_52px_rgba(0,0,0,0.3)]">
@@ -227,7 +227,7 @@ export function DepthDeckSection() {
           </div>
 
           <motion.div
-            className="relative min-h-[590px] [perspective:1800px] max-lg:min-h-[510px]"
+            className="relative min-h-[430px] [perspective:1800px] sm:min-h-[520px] lg:min-h-[590px]"
             style={{ rotateY: stageRotate, y: stageY, transformStyle: "preserve-3d" }}
           >
             <div className="absolute left-1/2 top-1/2 h-[440px] w-[min(86vw,660px)] -translate-x-1/2 -translate-y-1/2 rounded-[46px] border border-white/10 bg-white/[0.035] shadow-[0_48px_150px_rgba(0,0,0,0.5)]" />

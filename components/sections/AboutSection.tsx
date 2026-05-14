@@ -4,9 +4,26 @@ import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useLanguage } from "@/hooks/useLanguage";
 import { fadeUp, staggerContainer } from "@/lib/animations";
+import { PageDepthScene } from "./PageDepthScene";
+
+const depthCopy = {
+  ru: {
+    label: "profile layers",
+    title: "Профиль собран как система ролей.",
+    body:
+      "Разработка, дизайн, операции и железо не висят отдельными пунктами: они складываются в маршрут от идеи до запуска, поддержки и роста продукта."
+  },
+  ua: {
+    label: "profile layers",
+    title: "Профіль зібраний як система ролей.",
+    body:
+      "Розробка, дизайн, операції та hardware не висять окремими пунктами: вони складаються в маршрут від ідеї до запуску, підтримки й росту продукту."
+  }
+} as const;
 
 export function AboutSection() {
   const { lang, content } = useLanguage();
+  const depth = depthCopy[lang];
 
   return (
     <section id="about" className="section-band">
@@ -21,6 +38,15 @@ export function AboutSection() {
             </div>
             <p className="max-w-[66ch] text-pretty text-[17px] leading-8 text-[var(--text-soft)]">{content.about.body}</p>
           </div>
+
+          <PageDepthScene
+            label={depth.label}
+            title={depth.title}
+            body={depth.body}
+            items={content.about.cards.map((card) => card.title)}
+            accent="#66c7ff"
+            hint="profile 3D layers"
+          />
 
           <motion.div
             className="grid gap-4 md:grid-cols-3"
