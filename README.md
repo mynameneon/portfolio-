@@ -13,42 +13,37 @@ npm run dev
 
 ## Supabase
 
-Создай таблицу в Supabase Dashboard -> SQL Editor:
+В Supabase Dashboard -> SQL Editor выполни SQL из файла `supabase/schema.sql`. Он создает:
 
-```sql
-CREATE TABLE IF NOT EXISTS contacts (
-  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  name text NOT NULL,
-  email text NOT NULL,
-  message text NOT NULL,
-  lang text DEFAULT 'ru',
-  created_at timestamptz DEFAULT now()
-);
-
-ALTER TABLE contacts ENABLE ROW LEVEL SECURITY;
-
-DROP POLICY IF EXISTS "Anyone can insert contacts" ON contacts;
-
-CREATE POLICY "Anyone can insert contacts"
-  ON contacts
-  FOR INSERT
-  TO anon, authenticated
-  WITH CHECK (true);
-
-GRANT USAGE ON SCHEMA public TO anon, authenticated;
-GRANT INSERT ON TABLE public.contacts TO anon, authenticated;
-
-NOTIFY pgrst, 'reload schema';
-```
+- `contacts` для формы связи;
+- `site_content` для редактируемого контента сайта;
+- `admin_users` для аккаунтов админки без публичной регистрации.
 
 Добавь переменные окружения локально в `.env.local` и в Netlify Environment Variables:
 
 ```bash
 NEXT_PUBLIC_SUPABASE_URL=https://zmzeudwugwmfxhpxhzqr.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_VGSFECkKfoevDnWA87-5uQ_iO-z-w3f
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 ```
 
-Форма связи сохраняет заявки в таблицу `contacts`. Для безопасности публичного чтения нет: посетители могут только отправить сообщение.
+Форма связи сохраняет заявки в таблицу `contacts`. Публичный сайт читает только `site_content`, а запись контента и аккаунтов идет через серверный route handler с `SUPABASE_SERVICE_ROLE_KEY`.
+
+## Админка
+
+Открой `/admin`. Публичной регистрации нет: новые логины добавляются внутри админки.
+
+Контент редактируется как один структурированный JSON:
+
+- `translations.ru` и `translations.ua` — тексты, стек, опыт, контакты, hero-картинка;
+- `projects` — карточки проектов, стек, accent-цвета и визуальные варианты;
+- `experience.items[].animation` — название SVG-анимации карточки опыта.
+
+Для смены bootstrap-пароля задай `ADMIN_PASSWORD_HASH`. Хеш можно сгенерировать локально:
+
+```bash
+node -e "const crypto=require('crypto'); const password=process.env.ADMIN_PASSWORD; const salt=crypto.randomBytes(16).toString('hex'); const key=crypto.scryptSync(password,salt,64).toString('hex'); console.log('scrypt:'+salt+':'+key);"
+```
 
 ## Email-уведомления
 

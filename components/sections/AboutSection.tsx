@@ -3,27 +3,20 @@
 import { motion } from "framer-motion";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useLanguage } from "@/hooks/useLanguage";
+import { pageDepthContent } from "@/lib/editableSections";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import { PageDepthScene } from "./PageDepthScene";
 
-const depthCopy = {
-  ru: {
-    label: "profile layers",
-    title: "Профиль собран как система ролей.",
-    body:
-      "Разработка, дизайн, операции и железо не висят отдельными пунктами: они складываются в маршрут от идеи до запуска, поддержки и роста продукта."
-  },
-  ua: {
-    label: "profile layers",
-    title: "Профіль зібраний як система ролей.",
-    body:
-      "Розробка, дизайн, операції та hardware не висять окремими пунктами: вони складаються в маршрут від ідеї до запуску, підтримки й росту продукту."
-  }
-} as const;
 
 export function AboutSection() {
-  const { lang, content } = useLanguage();
-  const depth = depthCopy[lang];
+  const { lang, content, getEditableSection, isSectionVisible } = useLanguage();
+  const depthContent = getEditableSection("pageDepth", pageDepthContent);
+  const depth = depthContent.about[lang] ?? pageDepthContent.about[lang];
+  const cards = content.about.cards.filter((card) => card.hidden !== true);
+
+  if (!isSectionVisible("about")) {
+    return null;
+  }
 
   return (
     <section id="about" className="section-band">
@@ -43,7 +36,7 @@ export function AboutSection() {
             label={depth.label}
             title={depth.title}
             body={depth.body}
-            items={content.about.cards.map((card) => card.title)}
+            items={cards.map((card) => card.title)}
             accent="#66c7ff"
             hint="profile 3D layers"
           />
@@ -55,7 +48,7 @@ export function AboutSection() {
             whileInView="visible"
             viewport={{ once: true, margin: "-80px" }}
           >
-            {content.about.cards.map((card) => (
+            {cards.map((card) => (
               <GlassCard key={card.title} className="grid min-h-[280px] content-between gap-10 p-6" variants={fadeUp}>
                 <div className="flex items-start justify-between gap-4">
                   <h3 className="text-2xl font-semibold leading-tight text-text-primary">{card.title}</h3>

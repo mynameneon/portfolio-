@@ -3,92 +3,10 @@
 import { motion, useScroll, useSpring, useTransform, type MotionValue } from "framer-motion";
 import { ChevronDown, Layers3, MousePointer2, Route, Sparkles } from "lucide-react";
 import { useRef } from "react";
+import { useCompactMotion } from "@/hooks/useCompactMotion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { depthDeckContent } from "@/lib/editableSections";
 
-const copy = {
-  ru: {
-    eyebrow: "3D page flow",
-    title: "Листание как у сайта-презентации, а не карточка на фоне.",
-    body:
-      "Скролл ведет через этапы проекта как через объемные страницы: бриф, прототип, разработка, интеграции и запуск. Панели не просто двигаются, а разворачиваются в перспективе, чтобы показать глубину интерфейса.",
-    scroll: "листай вниз",
-    hint: "scroll / 3D flip",
-    route: "client path",
-    frames: [
-      {
-        stage: "01 / brief",
-        title: "Бриф и цель",
-        body: "Фиксируем аудиторию, оффер, сценарий заявки и самый важный экран сайта.",
-        chips: ["strategy", "offer", "UX map"]
-      },
-      {
-        stage: "02 / prototype",
-        title: "Прототип страниц",
-        body: "Собираем структуру как продуктовый интерфейс: блоки, навигация, состояния, мобильная логика.",
-        chips: ["wireframe", "mobile", "content"]
-      },
-      {
-        stage: "03 / visual",
-        title: "Apple-dark визуал",
-        body: "Минимум шума, аккуратный стек, мягкий голубой акцент, много воздуха и сильная типографика.",
-        chips: ["premium", "motion", "system"]
-      },
-      {
-        stage: "04 / build",
-        title: "Разработка",
-        body: "Next.js, TypeScript, Supabase, формы, SEO, адаптив, анимации и компоненты без лишнего мусора.",
-        chips: ["Next.js", "Supabase", "Netlify"]
-      },
-      {
-        stage: "05 / launch",
-        title: "Запуск и рост",
-        body: "Проверка, деплой, GitHub, Netlify, аналитика и дальнейшие правки без пересборки проекта с нуля.",
-        chips: ["QA", "deploy", "support"]
-      }
-    ]
-  },
-  ua: {
-    eyebrow: "3D page flow",
-    title: "Гортання як у сайту-презентації, а не картка на фоні.",
-    body:
-      "Скрол веде через етапи проєкту як через об'ємні сторінки: бриф, прототип, розробка, інтеграції та запуск. Панелі не просто рухаються, а розвертаються в перспективі, щоб показати глибину інтерфейсу.",
-    scroll: "гортай вниз",
-    hint: "scroll / 3D flip",
-    route: "client path",
-    frames: [
-      {
-        stage: "01 / brief",
-        title: "Бриф і ціль",
-        body: "Фіксуємо аудиторію, офер, сценарій заявки й найважливіший екран сайту.",
-        chips: ["strategy", "offer", "UX map"]
-      },
-      {
-        stage: "02 / prototype",
-        title: "Прототип сторінок",
-        body: "Збираємо структуру як продуктовий інтерфейс: блоки, навігація, стани, мобільна логіка.",
-        chips: ["wireframe", "mobile", "content"]
-      },
-      {
-        stage: "03 / visual",
-        title: "Apple-dark візуал",
-        body: "Мінімум шуму, акуратний стек, м'який блакитний акцент, багато повітря й сильна типографіка.",
-        chips: ["premium", "motion", "system"]
-      },
-      {
-        stage: "04 / build",
-        title: "Розробка",
-        body: "Next.js, TypeScript, Supabase, форми, SEO, адаптив, анімації та компоненти без зайвого сміття.",
-        chips: ["Next.js", "Supabase", "Netlify"]
-      },
-      {
-        stage: "05 / launch",
-        title: "Запуск і ріст",
-        body: "Перевірка, деплой, GitHub, Netlify, аналітика й подальші правки без перескладання проєкту з нуля.",
-        chips: ["QA", "deploy", "support"]
-      }
-    ]
-  }
-} as const;
 
 interface FlowFrame {
   stage: string;
@@ -101,27 +19,29 @@ function FlowPanel({
   frame,
   index,
   total,
-  progress
+  progress,
+  compact
 }: {
   frame: FlowFrame;
   index: number;
   total: number;
   progress: MotionValue<number>;
+  compact: boolean;
 }) {
   const center = total === 1 ? 0 : index / (total - 1);
   const input = [center - 0.22, center, center + 0.22];
-  const x = useTransform(progress, input, [170 - index * 16, 0, -190 - index * 20]);
-  const y = useTransform(progress, input, [96, 0, -96]);
-  const rotateY = useTransform(progress, input, [52, 0, -58]);
-  const rotateX = useTransform(progress, input, [-8, 0, 10]);
-  const scale = useTransform(progress, input, [0.72, 1, 0.7]);
-  const opacity = useTransform(progress, input, [0.08, 1, 0.08]);
-  const blur = useTransform(progress, input, [5, 0, 6]);
+  const x = useTransform(progress, input, compact ? [26, 0, -26] : [170 - index * 16, 0, -190 - index * 20]);
+  const y = useTransform(progress, input, compact ? [72, 0, -72] : [96, 0, -96]);
+  const rotateY = useTransform(progress, input, compact ? [10, 0, -10] : [52, 0, -58]);
+  const rotateX = useTransform(progress, input, compact ? [-3, 0, 3] : [-8, 0, 10]);
+  const scale = useTransform(progress, input, compact ? [0.88, 1, 0.88] : [0.72, 1, 0.7]);
+  const opacity = useTransform(progress, input, compact ? [0, 1, 0] : [0.08, 1, 0.08]);
+  const blur = useTransform(progress, input, compact ? [2, 0, 2] : [5, 0, 6]);
   const filter = useTransform(blur, (value) => `blur(${value}px)`);
 
   return (
     <motion.article
-      className="absolute left-1/2 top-1/2 w-[min(86vw,560px)] overflow-hidden rounded-[30px] border border-white/15 bg-[#06080b]/88 p-4 text-left shadow-[0_42px_130px_rgba(0,0,0,0.62)] backdrop-blur-2xl sm:rounded-[34px] sm:p-6"
+      className="absolute left-1/2 top-1/2 w-[min(92vw,560px)] overflow-hidden rounded-[26px] border border-white/15 bg-[#06080b]/88 p-4 text-left shadow-[0_42px_130px_rgba(0,0,0,0.62)] backdrop-blur-2xl sm:w-[min(86vw,560px)] sm:rounded-[34px] sm:p-6"
       style={{
         x,
         y,
@@ -188,19 +108,25 @@ function FlowRail({ frames, progress }: { frames: readonly FlowFrame[]; progress
 }
 
 export function DepthDeckSection() {
-  const { lang } = useLanguage();
-  const content = copy[lang];
+  const { lang, getEditableSection, isSectionVisible } = useLanguage();
+  const editableContent = getEditableSection("depthDeck", depthDeckContent);
+  const content = editableContent[lang] ?? depthDeckContent[lang];
+  const compactMotion = useCompactMotion();
   const sectionRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"]
   });
   const smoothProgress = useSpring(scrollYProgress, { stiffness: 74, damping: 22, mass: 0.35 });
-  const stageRotate = useTransform(smoothProgress, [0, 0.5, 1], [-3, 0, 3]);
-  const stageY = useTransform(smoothProgress, [0, 1], [24, -24]);
+  const stageRotate = useTransform(smoothProgress, [0, 0.5, 1], compactMotion ? [0, 0, 0] : [-3, 0, 3]);
+  const stageY = useTransform(smoothProgress, [0, 1], compactMotion ? [0, 0] : [24, -24]);
+
+  if (!isSectionVisible("depthDeck")) {
+    return null;
+  }
 
   return (
-    <section ref={sectionRef} className="relative min-h-[230svh] border-t border-line sm:min-h-[250svh]" data-hint={content.hint}>
+    <section ref={sectionRef} className="relative min-h-[205svh] border-t border-line sm:min-h-[250svh]" data-hint={content.hint}>
       <div className="sticky top-[58px] grid min-h-[calc(100svh-58px)] items-center overflow-hidden py-8 sm:top-[66px] sm:min-h-[calc(100svh-66px)] sm:py-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_70%_34%,rgba(41,151,255,0.16),transparent_28rem),radial-gradient(circle_at_34%_74%,rgba(102,199,255,0.06),transparent_24rem)]" />
         <motion.div
@@ -227,10 +153,10 @@ export function DepthDeckSection() {
           </div>
 
           <motion.div
-            className="relative min-h-[430px] [perspective:1800px] sm:min-h-[520px] lg:min-h-[590px]"
+            className="relative min-h-[380px] [perspective:1400px] sm:min-h-[520px] sm:[perspective:1800px] lg:min-h-[590px]"
             style={{ rotateY: stageRotate, y: stageY, transformStyle: "preserve-3d" }}
           >
-            <div className="absolute left-1/2 top-1/2 h-[440px] w-[min(86vw,660px)] -translate-x-1/2 -translate-y-1/2 rounded-[46px] border border-white/10 bg-white/[0.035] shadow-[0_48px_150px_rgba(0,0,0,0.5)]" />
+            <div className="absolute left-1/2 top-1/2 h-[340px] w-[min(92vw,660px)] -translate-x-1/2 -translate-y-1/2 rounded-[34px] border border-white/10 bg-white/[0.035] shadow-[0_48px_150px_rgba(0,0,0,0.5)] sm:h-[440px] sm:w-[min(86vw,660px)] sm:rounded-[46px]" />
             <div className="absolute left-[9%] top-[12%] hidden rounded-full border border-white/10 bg-black/40 px-3 py-2 font-mono text-[11px] uppercase text-[var(--text-soft)] lg:inline-flex">
               <Route size={14} className="mr-2 text-[#2997ff]" />
               {content.route}
@@ -243,7 +169,7 @@ export function DepthDeckSection() {
               <Sparkles size={24} className="text-[#66c7ff]" />
             </motion.div>
             {content.frames.map((frame, index) => (
-              <FlowPanel key={frame.stage} frame={frame} index={index} total={content.frames.length} progress={smoothProgress} />
+              <FlowPanel key={frame.stage} frame={frame} index={index} total={content.frames.length} progress={smoothProgress} compact={compactMotion} />
             ))}
           </motion.div>
         </div>

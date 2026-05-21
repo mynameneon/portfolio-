@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { ProjectPreview } from "@/components/projects/ProjectPreview";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { useLanguage } from "@/hooks/useLanguage";
-import type { ProjectPreviewVariant, ProjectShowcaseItem } from "@/lib/projectShowcase";
+import type { ProjectPreviewVariant, ProjectShowcaseItem } from "@/types";
 
 interface ProjectDemoModalProps {
   project: ProjectShowcaseItem | null;
@@ -354,7 +354,7 @@ export function ProjectDemoModal({ project, onClose }: ProjectDemoModalProps) {
   }
 
   const text = labels[lang];
-  const scenario = demoScenarios[lang][project.variant];
+  const scenario = demoScenarios[lang][project.variant] ?? demoScenarios[lang].terminal;
   const activeState = scenario.states[step % scenario.states.length];
 
   return (

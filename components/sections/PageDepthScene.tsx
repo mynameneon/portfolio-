@@ -3,6 +3,7 @@
 import { motion, useMotionValue, useScroll, useSpring, useTransform } from "framer-motion";
 import { Layers3, MousePointer2, Sparkles } from "lucide-react";
 import { useRef } from "react";
+import { useCompactMotion } from "@/hooks/useCompactMotion";
 
 interface PageDepthSceneProps {
   label: string;
@@ -22,15 +23,16 @@ export function PageDepthScene({
   hint = "3D parallax / hover"
 }: PageDepthSceneProps) {
   const ref = useRef<HTMLDivElement | null>(null);
+  const compactMotion = useCompactMotion();
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const smoothX = useSpring(mouseX, { stiffness: 95, damping: 22, mass: 0.35 });
   const smoothY = useSpring(mouseY, { stiffness: 95, damping: 22, mass: 0.35 });
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start end", "end start"] });
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-10, 10]);
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [8, -8]);
-  const sceneY = useTransform(scrollYProgress, [0, 1], [38, -38]);
-  const railX = useTransform(scrollYProgress, [0, 1], ["-34%", "34%"]);
+  const rotateY = useTransform(smoothX, [-0.5, 0.5], compactMotion ? [-4, 4] : [-10, 10]);
+  const rotateX = useTransform(smoothY, [-0.5, 0.5], compactMotion ? [3, -3] : [8, -8]);
+  const sceneY = useTransform(scrollYProgress, [0, 1], compactMotion ? [0, 0] : [38, -38]);
+  const railX = useTransform(scrollYProgress, [0, 1], compactMotion ? ["-12%", "12%"] : ["-34%", "34%"]);
 
   return (
     <motion.div
@@ -38,6 +40,9 @@ export function PageDepthScene({
       className="relative mb-14 grid items-center gap-6 overflow-hidden rounded-[34px] border border-line bg-white/[0.04] p-4 shadow-[0_34px_110px_rgba(0,0,0,0.38)] backdrop-blur-2xl sm:p-5 lg:grid-cols-[0.78fr_1.22fr] lg:p-6"
       data-hint={hint}
       onPointerMove={(event) => {
+        if (compactMotion) {
+          return;
+        }
         const rect = event.currentTarget.getBoundingClientRect();
         mouseX.set((event.clientX - rect.left) / rect.width - 0.5);
         mouseY.set((event.clientY - rect.top) / rect.height - 0.5);

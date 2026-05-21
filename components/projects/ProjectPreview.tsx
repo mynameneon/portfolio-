@@ -2,7 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, type ReactNode } from "react";
-import type { ProjectPreviewVariant } from "@/lib/projectShowcase";
+import type { ProjectPreviewVariant } from "@/types";
 
 interface ProjectPreviewProps {
   variant: ProjectPreviewVariant;

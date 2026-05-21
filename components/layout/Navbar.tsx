@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { Languages, Menu, X } from "lucide-react";
+import { Languages, LockKeyhole, Menu, X } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -32,7 +32,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-black/62 backdrop-blur-2xl">
-      <nav className="shell flex min-h-[66px] items-center justify-between gap-6" aria-label="Primary navigation">
+      <nav className="shell relative flex min-h-[66px] items-center justify-between gap-6" aria-label="Primary navigation">
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={() => setIsOpen(false)}>
           <span className="grid h-[34px] w-[34px] place-items-center rounded-xl border border-white/12 bg-white/[0.08] font-mono text-xs text-white shadow-[0_14px_34px_rgba(0,0,0,0.3)]">
             NK
@@ -60,7 +60,35 @@ export function Navbar() {
           ))}
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="fixed right-4 top-[13px] z-50 flex items-center gap-2 lg:static lg:z-auto">
+          <Link
+            href="/admin"
+            aria-label="Вход в админку"
+            className={clsx(
+              "hidden min-h-10 items-center gap-2 rounded-full border px-3 text-sm font-semibold shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:inline-flex",
+              pathname === "/admin"
+                ? "border-transparent bg-white text-black"
+                : "border-line bg-white/[0.055] text-text-primary hover:border-[#2997ff]/45 hover:bg-[#2997ff]/10"
+            )}
+          >
+            <LockKeyhole size={15} />
+            <span className="hidden xl:inline">Админ</span>
+          </Link>
+
+          <Link
+            href="/admin"
+            aria-label="Вход в админку"
+            onClick={() => setIsOpen(false)}
+            className={clsx(
+              "grid h-10 w-10 place-items-center rounded-full border shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:hidden",
+              pathname === "/admin"
+                ? "border-transparent bg-white text-black"
+                : "border-line bg-white/[0.065] text-text-primary hover:border-[#2997ff]/45 hover:bg-[#2997ff]/10"
+            )}
+          >
+            <LockKeyhole size={16} />
+          </Link>
+
           <div className="hidden items-center gap-1 rounded-full border border-line bg-white/[0.055] p-1 shadow-[0_18px_46px_rgba(0,0,0,0.22)] sm:flex" aria-label="Language switcher">
             {(["ru", "ua"] as const).map((item) => (
               <motion.button
@@ -113,6 +141,14 @@ export function Navbar() {
                   {item.label}
                 </Link>
               ))}
+              <Link
+                href="/admin"
+                onClick={() => setIsOpen(false)}
+                className="inline-flex items-center gap-3 rounded-2xl border border-[#2997ff]/35 bg-[#2997ff]/10 px-4 py-3 text-sm font-semibold text-text-primary shadow-[0_18px_46px_rgba(0,0,0,0.22)]"
+              >
+                <LockKeyhole size={16} />
+                Вход в админку
+              </Link>
               <div className="mt-2 flex items-center justify-between rounded-2xl border border-line bg-white/[0.055] px-3 py-2 shadow-[0_18px_46px_rgba(0,0,0,0.22)]">
                 <span className="inline-flex items-center gap-2 text-sm text-[var(--text-soft)]">
                   <Languages size={16} />

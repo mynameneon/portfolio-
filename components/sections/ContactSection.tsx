@@ -8,25 +8,10 @@ import { SectionHeader } from "@/components/sections/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { NeonButton } from "@/components/ui/NeonButton";
 import { useLanguage } from "@/hooks/useLanguage";
+import { pageDepthContent } from "@/lib/editableSections";
 import type { ContactLink, ContactStatus } from "@/types";
 import { PageDepthScene } from "./PageDepthScene";
 
-const depthCopy = {
-  ru: {
-    label: "lead flow",
-    title: "Заявка проходит понятный путь.",
-    body:
-      "Имя, почта и короткое сообщение сохраняются в Supabase, дублируются email-уведомлением и превращаются в задачу, на которую удобно ответить без потери контекста.",
-    items: ["Форма", "Supabase", "Email", "Ответ 24ч"]
-  },
-  ua: {
-    label: "lead flow",
-    title: "Заявка проходить зрозумілий шлях.",
-    body:
-      "Ім'я, пошта й коротке повідомлення зберігаються в Supabase, дублюються email-сповіщенням і перетворюються на задачу, на яку зручно відповісти без втрати контексту.",
-    items: ["Форма", "Supabase", "Email", "Відповідь 24г"]
-  }
-} as const;
 
 function ContactIcon({ id }: { id: string }) {
   if (id === "phone") return <Phone size={17} />;
@@ -60,13 +45,19 @@ function ContactItem({ item }: { item: ContactLink }) {
 }
 
 export function ContactSection() {
-  const { lang, content } = useLanguage();
-  const depth = depthCopy[lang];
+  const { lang, content, getEditableSection, isSectionVisible } = useLanguage();
+  const depthContent = getEditableSection("pageDepth", pageDepthContent);
+  const depth = depthContent.contact[lang] ?? pageDepthContent.contact[lang];
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<ContactStatus>("idle");
   const [error, setError] = useState("");
+  const links = content.contact.links.filter((item) => item.hidden !== true);
+
+  if (!isSectionVisible("contact")) {
+    return null;
+  }
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -129,7 +120,7 @@ export function ContactSection() {
                 <span className="rounded-full border border-line bg-white/[0.045] px-3 py-1.5 font-mono text-[11px] text-[var(--text-soft)]">RU / UA</span>
               </div>
               <div className="grid gap-2">
-                {content.contact.links.map((item) => (
+                {links.map((item) => (
                   <ContactItem key={item.id} item={item} />
                 ))}
               </div>

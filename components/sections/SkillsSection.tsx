@@ -6,24 +6,11 @@ import { useInView } from "react-intersection-observer";
 import { SectionHeader } from "@/components/sections/SectionHeader";
 import { GlassCard } from "@/components/ui/GlassCard";
 import { useLanguage } from "@/hooks/useLanguage";
+import { pageDepthContent } from "@/lib/editableSections";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 import type { SkillCategory } from "@/types";
 import { PageDepthScene } from "./PageDepthScene";
 
-const depthCopy = {
-  ru: {
-    label: "skill map",
-    title: "Стек двигается слоями, как рабочая карта.",
-    body:
-      "Навыки разделены не ради списка, а ради сценариев: интерфейс, серверная логика, аналитика, CRM, контент и электроника быстро соединяются под задачу клиента."
-  },
-  ua: {
-    label: "skill map",
-    title: "Стек рухається шарами, як робоча карта.",
-    body:
-      "Навички розділені не заради списку, а заради сценаріїв: інтерфейс, серверна логіка, аналітика, CRM, контент і електроніка швидко з'єднуються під задачу клієнта."
-  }
-} as const;
 
 function SkillIcon({ id, color }: { id: string; color: string }) {
   const props = { size: 21, color, strokeWidth: 1.9 };
@@ -71,9 +58,15 @@ function SkillCard({ category, index }: { category: SkillCategory; index: number
 }
 
 export function SkillsSection() {
-  const { lang, content } = useLanguage();
+  const { lang, content, getEditableSection, isSectionVisible } = useLanguage();
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12 });
-  const depth = depthCopy[lang];
+  const depthContent = getEditableSection("pageDepth", pageDepthContent);
+  const depth = depthContent.skills[lang] ?? pageDepthContent.skills[lang];
+  const categories = content.skills.categories.filter((category) => category.hidden !== true);
+
+  if (!isSectionVisible("skills")) {
+    return null;
+  }
 
   return (
     <section id="skills" className="section-band">
@@ -84,7 +77,7 @@ export function SkillsSection() {
             label={depth.label}
             title={depth.title}
             body={depth.body}
-            items={content.skills.categories.map((category) => category.title)}
+            items={categories.map((category) => category.title)}
             accent="#30d158"
             hint="skill map / parallax"
           />
@@ -95,7 +88,7 @@ export function SkillsSection() {
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
           >
-            {content.skills.categories.map((category, index) => (
+            {categories.map((category, index) => (
               <SkillCard key={category.id} category={category} index={index} />
             ))}
           </motion.div>

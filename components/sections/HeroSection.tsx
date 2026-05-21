@@ -10,7 +10,13 @@ import { useLanguage } from "@/hooks/useLanguage";
 import { fadeUp, staggerContainer } from "@/lib/animations";
 
 export function HeroSection() {
-  const { lang, content } = useLanguage();
+  const { lang, content, isSectionVisible } = useLanguage();
+  const stats = content.hero.stats.filter((stat) => stat.hidden !== true);
+  const roles = content.hero.roles.filter((role) => role.hidden !== true);
+
+  if (!isSectionVisible("hero")) {
+    return null;
+  }
 
   return (
     <section id="hero" className="relative overflow-hidden bg-hero-gradient">
@@ -51,7 +57,7 @@ export function HeroSection() {
             </NeonButton>
           </motion.div>
           <motion.div className="mt-12 grid max-w-[650px] grid-cols-1 gap-3 max-lg:mx-auto max-sm:max-w-[17rem] sm:grid-cols-3" variants={fadeUp}>
-            {content.hero.stats.map((stat) => (
+            {stats.map((stat) => (
               <div key={stat.label} className="rounded-[22px] border border-line bg-white/[0.055] p-4 shadow-[0_20px_52px_rgba(0,0,0,0.28)] backdrop-blur-xl">
                 <strong className="block text-3xl font-semibold leading-none text-text-primary">{stat.value}</strong>
                 <span className="mt-2 block text-xs leading-5 text-[var(--text-soft)]">{stat.label}</span>
@@ -74,17 +80,18 @@ export function HeroSection() {
               transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
             >
               <Image
-                src="/images/nikita-portrait.png"
-                alt="Никита Кононенко"
+                src={content.hero.portrait.src}
+                alt={content.hero.portrait.alt}
                 fill
                 priority
                 sizes="(min-width: 1024px) 280px, 72vw"
-                className="object-cover object-[52%_26%]"
+                className="object-cover"
+                style={{ objectPosition: content.hero.portrait.objectPosition }}
               />
               <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.12),transparent_35%,rgba(0,0,0,0.18))]" />
             </motion.div>
             <div className="grid w-[min(100%,330px)] gap-2.5">
-              {content.hero.roles.map((role) => (
+              {roles.map((role) => (
                 <span key={role.label} className="flex items-center justify-between gap-3 rounded-2xl border border-line bg-black/35 px-4 py-3 text-sm text-[var(--text-soft)] shadow-[0_18px_50px_rgba(0,0,0,0.26)] backdrop-blur-xl">
                   <b className="font-semibold text-text-primary">{role.label}</b>
                   {role.value}

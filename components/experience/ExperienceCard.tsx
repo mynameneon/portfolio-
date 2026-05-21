@@ -7,8 +7,8 @@ import type { ExperienceCardProps } from "@/types";
 
 export function ExperienceCard({ item, animation, index, onOpen }: ExperienceCardProps) {
   const { content } = useLanguage();
-  const label = item.type === "official" ? content.common.official : content.common.freelance;
-  const symbol = item.type === "official" ? "✓" : "◆";
+  const label = item.type === "official" ? content.common.official : item.type === "education" ? content.common.education : content.common.freelance;
+  const symbol = item.type === "official" ? "✓" : item.type === "education" ? "◦" : "◆";
   const flip = index % 2 === 1;
 
   return (

@@ -4,28 +4,12 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import { Box, Cuboid, Orbit, Sparkles } from "lucide-react";
 import { useEffect, useRef } from "react";
 import type * as ThreeNamespace from "three";
+import { useCompactMotion } from "@/hooks/useCompactMotion";
 import { useLanguage } from "@/hooks/useLanguage";
+import { threeLabContent } from "@/lib/editableSections";
 
 type ThreeModule = typeof import("three");
 
-const copy = {
-  ru: {
-    eyebrow: "Three.js / Spatial UI",
-    title: "3D-сцена внутри портфолио, которую можно развивать в продукт.",
-    body:
-      "Здесь не просто декоративный фон: это база под интерактивные сцены, 3D-презентации, product demo, игровые меню, конфигураторы и визуальные лендинги. Сцена реагирует на курсор и остается легкой для сайта.",
-    specs: ["WebGL scene", "Pointer parallax", "Product demo ready", "No heavy assets"],
-    caption: "move cursor / scroll depth"
-  },
-  ua: {
-    eyebrow: "Three.js / Spatial UI",
-    title: "3D-сцена всередині портфоліо, яку можна розвивати в продукт.",
-    body:
-      "Тут не просто декоративний фон: це база під інтерактивні сцени, 3D-презентації, product demo, ігрові меню, конфігуратори та візуальні лендінги. Сцена реагує на курсор і лишається легкою для сайту.",
-    specs: ["WebGL scene", "Pointer parallax", "Product demo ready", "No heavy assets"],
-    caption: "move cursor / scroll depth"
-  }
-} as const;
 
 function createRing(THREE: ThreeModule, radius: number, color: string) {
   const points: ThreeNamespace.Vector3[] = [];
@@ -76,6 +60,7 @@ function disposeObject(THREE: ThreeModule, object: ThreeNamespace.Object3D) {
 }
 
 function initThreeScene(THREE: ThreeModule, canvas: HTMLCanvasElement) {
+  const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -85,8 +70,8 @@ function initThreeScene(THREE: ThreeModule, canvas: HTMLCanvasElement) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.45));
 
   const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-  camera.position.set(0, 0, 8);
+  const camera = new THREE.PerspectiveCamera(isSmallScreen ? 50 : 42, 1, 0.1, 100);
+  camera.position.set(0, 0, isSmallScreen ? 10.2 : 8);
 
   const ambientLight = new THREE.AmbientLight(0xffffff, 1.25);
   const blueLight = new THREE.PointLight(0x2997ff, 12, 18);
@@ -96,6 +81,7 @@ function initThreeScene(THREE: ThreeModule, canvas: HTMLCanvasElement) {
   scene.add(ambientLight, blueLight, softLight);
 
   const group = new THREE.Group();
+  group.scale.setScalar(isSmallScreen ? 0.72 : 1);
   scene.add(group);
 
   const coreGeometry = new THREE.IcosahedronGeometry(1.08, 1);
@@ -137,7 +123,6 @@ function initThreeScene(THREE: ThreeModule, canvas: HTMLCanvasElement) {
   const panelBaseY = panels.map((panel) => panel.position.y);
   panels.forEach((panel) => group.add(panel));
 
-  const isSmallScreen = window.matchMedia("(max-width: 760px)").matches;
   const particleCount = isSmallScreen ? 120 : 220;
   const positions = new Float32Array(particleCount * 3);
   for (let index = 0; index < particleCount; index += 1) {
@@ -230,13 +215,15 @@ function initThreeScene(THREE: ThreeModule, canvas: HTMLCanvasElement) {
 }
 
 export function ThreeLabSection() {
-  const { lang } = useLanguage();
-  const content = copy[lang];
+  const { lang, getEditableSection, isSectionVisible } = useLanguage();
+  const editableContent = getEditableSection("threeLab", threeLabContent);
+  const content = editableContent[lang] ?? threeLabContent[lang];
+  const compactMotion = useCompactMotion();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const sectionRef = useRef<HTMLElement | null>(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start end", "end start"] });
-  const headlineY = useTransform(scrollYProgress, [0, 1], [38, -38]);
-  const specY = useTransform(scrollYProgress, [0, 1], [70, -50]);
+  const headlineY = useTransform(scrollYProgress, [0, 1], compactMotion ? [0, 0] : [38, -38]);
+  const specY = useTransform(scrollYProgress, [0, 1], compactMotion ? [0, 0] : [70, -50]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -275,8 +262,12 @@ export function ThreeLabSection() {
     };
   }, []);
 
+  if (!isSectionVisible("threeLab")) {
+    return null;
+  }
+
   return (
-    <section ref={sectionRef} className="relative min-h-[112svh] overflow-hidden border-t border-line py-20 sm:py-32" data-hint={content.caption}>
+    <section ref={sectionRef} className="relative min-h-[100svh] overflow-hidden border-t border-line py-20 sm:min-h-[112svh] sm:py-32" data-hint={content.caption}>
       <canvas ref={canvasRef} className="absolute inset-0 h-full w-full" aria-label="Three.js spatial portfolio scene" />
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_68%_36%,rgba(41,151,255,0.12),transparent_28rem),linear-gradient(90deg,rgba(0,0,0,0.9),rgba(0,0,0,0.42)_48%,rgba(0,0,0,0.92))]" />
       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.028)_1px,transparent_1px)] bg-[length:74px_74px] opacity-55" />

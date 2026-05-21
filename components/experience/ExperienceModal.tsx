@@ -77,7 +77,7 @@ export function ExperienceModal({ item, onClose }: ExperienceModalProps) {
                   className="inline-flex min-h-7 items-center rounded-full border px-3 font-mono text-[11px]"
                   style={{ color: item.accentColor, borderColor: `${item.accentColor}55`, backgroundColor: `${item.accentColor}14` }}
                 >
-                  {item.type === "official" ? content.common.official : content.common.freelance}
+                  {item.type === "official" ? content.common.official : item.type === "education" ? content.common.education : content.common.freelance}
                 </span>
                 <h2 className="mt-4 font-display text-3xl font-semibold leading-tight text-text-primary">
                   {item.company ? `${item.company} / ${item.title}` : item.title}

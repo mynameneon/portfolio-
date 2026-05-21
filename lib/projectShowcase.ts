@@ -1,20 +1,4 @@
-export type ProjectPreviewVariant = "board" | "audio" | "chat" | "dashboard" | "map" | "files" | "stream" | "terminal" | "game" | "key";
-
-export interface LocalizedCopy {
-  ru: string;
-  ua: string;
-}
-
-export interface ProjectShowcaseItem {
-  id: string;
-  title: string;
-  kind: LocalizedCopy;
-  summary: LocalizedCopy;
-  highlights: readonly LocalizedCopy[];
-  stack: readonly string[];
-  variant: ProjectPreviewVariant;
-  accent: string;
-}
+import type { ProjectShowcaseItem } from "@/types";
 
 export const projectShowcaseItems: readonly ProjectShowcaseItem[] = [
   {
